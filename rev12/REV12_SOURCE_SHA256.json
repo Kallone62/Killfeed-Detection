@@ -1,0 +1,12 @@
+{
+  "engine/d3_fullanchor.py": "0fae5aba34f6246596544beb943a329ec809ec28aeab9c5fb713446018f0b985",
+  "engine/hud_association.py": "e48d9228d622754acd8584eff6338000a20f466ff6718bfda76e14fa49c1d1c2",
+  "engine/hud_detector.py": "01cf162990bd6c87d32c4147f1fd028ce78a22141fc63315b211bc037af31e59",
+  "engine/hud_events.py": "e4ca9b2a6aa1fab51f3b901497a24c874d3956ff6ed985fc317dea5453fa061f",
+  "engine/hud_ownership.py": "f9237e7bb27ce80e2d0a08e40d7d5dffb4487eb805e3e62dcd1506d1597e3967",
+  "engine/hud_signature.py": "868b809b5ca2cc90e5e2b949c56be0abcc5dacf96d158c49c0dbe5b568b11f24",
+  "engine/photometric_v11.py": "410eb522a9dfb17b71f13ade5b2fef907fe5ff60cfc2e89d0b72f6d4960ea170",
+  "engine/physical_row_tracker.py": "34e1db9f75a7b9bcfde9f513e4469c5ad3e9a48c07b5778625a578793489270a",
+  "engine/weak_birth_60.py": "3dd770dee8b71318d98b6f9e90e5a8bf1b043a3389d1171a408a2838d081e4ec",
+  "owner_gate.py": "8c0e2cfd9cc7df72fd68c9720d6f85b29845dbfd1614685cea5d5a9380ea48da"
+}
