@@ -28,3 +28,40 @@ The original use case was an automated pipeline that takes FACEIT gameplay clips
 The detector was developed primarily around **1080p, 60 FPS CS2 recordings**. Other resolutions, frame rates, HUD layouts, and compression levels may need further tuning and validation. Contributions that improve compatibility or detection accuracy are welcome.
 
 The engine is still experimental: its checks are not a guarantee of perfectly identified kills, and not all stress-test scenarios have been completed.
+
+## Integrating It Into Your Own System
+
+**What you need**
+
+- **Python 3.12** and the Python packages in `requirements.txt` (OpenCV and NumPy).
+- **FFmpeg and ffprobe** installed and available on your system's PATH.
+- **Tesseract OCR** with English language data installed and available on PATH.
+- A **CS2 gameplay MP4** with the in-game killfeed visible, and the **player name** you want to track. No CS2 demo file, game connection, or API key is required.
+
+**Run the detector**
+
+```bash
+python -m pip install -r requirements.txt
+python detect.py --input gameplay.mp4 --output results --owner "PlayerName"
+```
+
+`--input` can also be a directory of MP4 files. The optional `--timeout` argument controls the per-video processing timeout (350 seconds by default).
+
+**What happens to the video?**
+
+1. FFmpeg decodes frames from the recorded gameplay.
+2. OpenCV looks for the killfeed's visual elements and tracks individual rows across frames.
+3. The engine separates kill events and refines their timestamps using additional source frames.
+4. Tesseract helps check the attacker name so events belonging to other players can be excluded.
+5. The program saves event metadata and the relevant killfeed image crops for another application to use.
+
+**What your application receives**
+
+- `results/<video-name>/rev12_final.json` — per-video status, event data, and detected onset timestamps (seconds into the original MP4).
+- `results/<video-name>/summary.json` — structured event information, including ownership checks and paths to saved images.
+- `results/<video-name>/runs/` — PNG killfeed crops, TSV event records, and diagnostic logs.
+- `results/rev12_batch.json` — summary when processing one or more videos.
+
+Your application can read these files and use the timestamps and image paths to drive its own editor, highlight generator, or other workflow. **This repository detects events; it does not cut videos into 9:16 Shorts or upload them anywhere.**
+
+**Handling results safely:** Check the per-video `status` before consuming events. `COMPLETE` means the detector's internal checks passed, not that every kill is guaranteed correct. `SAFE_NO_OVERLAY` means detection was incomplete, and `RETRY_LOCKED` means another process holds the analysis lock. The public `detect.py` command uses strict mode and returns a nonzero exit code for incomplete results.
